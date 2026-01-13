@@ -1,0 +1,38 @@
+# Add dataset directory to gitignore
+data/
+*.zip
+
+# Models (optional - remove if you want to commit trained models)
+models/*.h5
+models/*.keras
+
+# Results (optional - remove if you want to commit results)
+results/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
