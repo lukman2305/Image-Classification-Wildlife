@@ -1,4 +1,4 @@
-# Endangered Wildlife Image Classification 🐾
+# Endangered Wildlife Image Classification
 
 **SAIA 2133: Computer Vision - Final Project**  
 **Universiti Teknologi Malaysia (UTM)**
@@ -7,37 +7,44 @@ A comprehensive deep learning project for automated identification of endangered
 
 ---
 
-## 📋 Project Overview
+## Project Overview
 
 This project implements a complete image classification pipeline for endangered wildlife identification, comparing two distinct deep learning approaches:
 
 - **Model A**: Custom lightweight CNN designed from scratch
-- **Model B**: Transfer learning using pre-trained ResNet50
+- **Model B**: Transfer learning using pre-trained MobileNetV2
+
+### Dataset Focus
+This implementation focuses on 4 Malaysia-specific endangered species:
+- **Elephant** (Bornean Pygmy Elephant)
+- **Orangutan** (Critically endangered in Sabah & Sarawak)
+- **Panthers** (Malayan Black Panther - largest population)
+- **Rhino** (Sumatran Rhino - extinct in Malaysia 2019)
 
 ### Key Features
-✅ Comprehensive EDA with class distribution analysis  
-✅ Advanced data augmentation (rotation, flipping, brightness)  
-✅ Two model architectures with detailed comparison  
-✅ Complete evaluation metrics (Accuracy, Precision, Recall, F1)  
-✅ Confusion matrices and performance visualizations  
-✅ Interactive prediction demo  
-✅ Production-ready inference script
+- Comprehensive EDA with class distribution analysis
+- Advanced data augmentation (rotation, flipping, brightness)
+- Two model architectures with detailed comparison
+- Complete evaluation metrics (Accuracy, Precision, Recall, F1)
+- Confusion matrices and performance visualizations
+- Interactive prediction demo
+- Production-ready inference script
 
 ---
 
-## 🎯 Rubric Compliance (50 marks)
+## Rubric Compliance (50 marks)
 
 | Component | Marks | Status |
 |-----------|-------|--------|
-| **Dataset & EDA** | 8 | ✅ Complete |
-| **Preprocessing & Augmentation** | 7 | ✅ Complete |
-| **Model Development** | 10 | ✅ Complete |
-| **Training & Evaluation** | 13 | ✅ Complete |
-| **Interactive Demo** | 12 | ✅ Complete |
+| **Dataset & EDA** | 8 | Complete |
+| **Preprocessing & Augmentation** | 7 | Complete |
+| **Model Development** | 10 | Complete |
+| **Training & Evaluation** | 13 | Complete |
+| **Interactive Demo** | 12 | Complete |
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Image-Classification-Wildlife/
@@ -58,7 +65,7 @@ Image-Classification-Wildlife/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Prerequisites
 - Python 3.8 or higher
@@ -106,14 +113,19 @@ unzip danger-of-extinction-animal-image-set.zip -d data/danger-of-extinction/
 **Expected directory structure:**
 ```
 data/danger-of-extinction/
-├── class_1/
+├── African_Elephant/
 │   ├── image1.jpg
 │   ├── image2.jpg
 │   └── ...
-├── class_2/
+├── Orangutan/
 │   └── ...
-└── class_3/
+├── Panthers/
+│   └── ...
+└── Rhino/
     └── ...
+```
+
+Note: The notebook will filter and rename African_Elephant to Elephant for the 4 Malaysia-specific classes.
 ```
 
 ### 4. Run the Notebook
@@ -134,7 +146,7 @@ jupyter notebook
 
 ---
 
-## 🎨 Usage Examples
+## Usage Examples
 
 ### Interactive Prediction (Notebook)
 ```python
@@ -152,24 +164,24 @@ predict_wildlife_image(
 # Using custom CNN
 python predict_demo.py --image path/to/image.jpg --model custom_cnn
 
-# Using ResNet50
-python predict_demo.py --image path/to/image.jpg --model resnet50
+# Using MobileNetV2
+python predict_demo.py --image path/to/image.jpg --model mobilenetv2
 
-# With custom class names
-python predict_demo.py --image path/to/image.jpg --model resnet50 \
-    --classes Tiger Lion Elephant Rhino
+# With custom class names (default: Elephant, Orangutan, Panthers, Rhino)
+python predict_demo.py --image path/to/image.jpg --model mobilenetv2 \
+    --classes Elephant Orangutan Panthers Rhino
 ```
 
 ---
 
-## 📊 Results Summary
+## Results Summary
 
 ### Model Performance
 
 | Model | Accuracy | Precision | Recall | F1-Score | Training Time | Parameters |
 |-------|----------|-----------|--------|----------|---------------|------------|
-| **Custom CNN** | [X]% | [X] | [X] | [X] | [X] min | ~1-2M |
-| **ResNet50** | [X]% | [X] | [X] | [X] | [X] min | ~25M |
+| **Custom CNN** | [X]% | [X] | [X] | [X] | [X] min | ~0.5M |
+| **MobileNetV2** | [X]% | [X] | [X] | [X] | [X] min | ~3.5M |
 
 *Note: Actual results will be generated after training*
 
@@ -185,40 +197,39 @@ All results are saved in the `results/` directory:
 - `sample_images.png` - Sample images from each class
 - `augmentation_examples.png` - Data augmentation preview
 - `custom_cnn_training_curves.png` - Training/validation curves
-- `resnet50_training_curves.png` - Training/validation curves
+- `mobilenetv2_training_curves.png` - Training/validation curves
 - `confusion_matrices.png` - Side-by-side confusion matrices
 - `model_comparison_charts.png` - Comprehensive comparison
 - `custom_cnn_classification_report.txt` - Detailed metrics
-- `resnet50_classification_report.txt` - Detailed metrics
+- `mobilenetv2_classification_report.txt` - Detailed metrics
 - `project_summary.json` - Machine-readable summary
 - `project_summary.txt` - Human-readable summary
 
 ---
 
-## 🧪 Model Architectures
+## Model Architectures
 
 ### Custom CNN
 ```
 Input (224×224×3)
-→ Conv2D(32) → BatchNorm → ReLU → MaxPool → Dropout
-→ Conv2D(64) → BatchNorm → ReLU → MaxPool → Dropout
-→ Conv2D(128) → BatchNorm → ReLU → MaxPool → Dropout
-→ Conv2D(256) → BatchNorm → ReLU → MaxPool → Dropout
-→ GlobalAvgPool → Dense(256) → Dense(128) → Softmax
+→ Conv2D(32) → ReLU → MaxPool
+→ Conv2D(64) → ReLU → MaxPool
+→ Conv2D(128) → ReLU → MaxPool
+→ GlobalAvgPool → Dropout(0.3) → Softmax(4 classes)
 ```
 
-### ResNet50 Transfer Learning
+### MobileNetV2 Transfer Learning
 ```
-ResNet50 Base (Frozen, ImageNet weights)
-→ GlobalAvgPool
-→ Dense(512) → Dropout
-→ Dense(256) → Dropout
-→ Softmax
+MobileNetV2 Base (Frozen, ImageNet weights)
+→ GlobalAvgPool → BatchNorm
+→ Dense(512) → Dropout(0.5) → BatchNorm
+→ Dense(256) → Dropout(0.4)
+→ Softmax(4 classes)
 ```
 
 ---
 
-## 🛠️ Configuration
+## Configuration
 
 ### Training Parameters
 - **Image Size**: 224×224
@@ -241,13 +252,13 @@ ResNet50 Base (Frozen, ImageNet weights)
 
 ---
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
 **1. Dataset not found**
 ```
-⚠️ Dataset not found at ../data/danger-of-extinction
+WARNING: Dataset not found at ../data/danger-of-extinction
 ```
 **Solution**: Download and extract the Kaggle dataset to the correct location
 
@@ -271,7 +282,7 @@ Num GPUs Available: 0
 
 ---
 
-## 📝 Project Report
+## Project Report
 
 A comprehensive project report template is available in `report/project_report.md`. The report includes:
 
@@ -285,7 +296,7 @@ A comprehensive project report template is available in `report/project_report.m
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 This is an academic project for UTM SAIA 2133. For questions or improvements:
 1. Review the code and documentation
@@ -295,22 +306,22 @@ This is an academic project for UTM SAIA 2133. For questions or improvements:
 
 ---
 
-## 📚 References
+## References
 
 1. **Dataset**: [Danger of Extinction Animal Image Set](https://www.kaggle.com/datasets/brsdincer/danger-of-extinction-animal-image-set)
-2. **ResNet**: He et al. (2016). Deep Residual Learning for Image Recognition
+2. **MobileNetV2**: Sandler et al. (2018). MobileNetV2: Inverted Residuals and Linear Bottlenecks
 3. **Transfer Learning**: Yosinski et al. (2014). How transferable are features in deep neural networks?
 4. **Wildlife AI**: Norouzzadeh et al. (2018). Automatically identifying wild animals in camera-trap images
 
 ---
 
-## 📄 License
+## License
 
 This project is for educational purposes as part of UTM SAIA 2133 coursework.
 
 ---
 
-## 🎓 Acknowledgments
+## Acknowledgments
 
 - **Course**: SAIA 2133 - Computer Vision
 - **Institution**: Universiti Teknologi Malaysia (UTM)
@@ -319,7 +330,7 @@ This project is for educational purposes as part of UTM SAIA 2133 coursework.
 
 ---
 
-## 📧 Contact
+## Contact
 
 **Student**: [Your Name]  
 **Email**: [Your Email]  
@@ -328,4 +339,4 @@ This project is for educational purposes as part of UTM SAIA 2133 coursework.
 
 ---
 
-**Good luck with your project! 🐾🌍**
+**Good luck with your project!**
