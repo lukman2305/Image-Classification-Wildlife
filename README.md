@@ -332,11 +332,9 @@ This project is for educational purposes as part of UTM SAIA 2133 coursework.
 
 ## Contact
 
-**Student**: [Your Name]  
-**Email**: [Your Email]  
+**Student**: Muhammad Lukman bin Nasrum
+**Email**: lukmannasrum@gmail.com
 **Course**: SAIA 2133 - Computer Vision  
 **Year**: 2026
 
 ---
-
-**Good luck with your project!**
